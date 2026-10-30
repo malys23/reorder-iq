@@ -1,3 +1,8 @@
 spring:
-  application:
-    name: reorderiq-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reorderiq
+    username: ${DB_USER:reorderiq}
+    password: ${DB_PASSWORD:reorderiq}
+  jpa:
+    hibernate:
+      ddl-auto: validate
