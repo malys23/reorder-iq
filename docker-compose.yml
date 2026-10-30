@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: reorderiq
+      POSTGRES_USER: reorderiq
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-reorderiq}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
