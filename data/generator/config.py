@@ -1,0 +1,59 @@
+#seed, number of items, weeks of history, parameter ranges
+
+FIXED_SEED = 42
+NUM_ITEMS = 300
+WEEKS = 104
+
+CATEGORIES = {
+    "fasteners": {
+        "share": 0.20, "uom": "each",
+        "unit_cost": (0.05, 3.00), "lead_time_days": (3, 10),
+        "weekly_demand": (50, 500), "demand_prob": 1.0,
+        "pattern": "smooth", "trend_pct_per_year": (-3, 5),
+    },
+    "consumables": {
+        "share": 0.25, "uom": "each",
+        "unit_cost": (3, 150), "lead_time_days": (2, 12),
+        "weekly_demand": (20, 300), "demand_prob": 1.0,
+        "pattern": "smooth", "trend_pct_per_year": (-3, 5),
+    },
+    "gaskets_seals": {
+        "share": 0.07, "uom": "each",
+        "unit_cost": (1.5, 300), "lead_time_days": (3, 8),
+        "weekly_demand": (5, 150), "demand_prob": 1.0,
+        "pattern": "seasonal", "trend_pct_per_year": (-3, 5),
+    },
+    "fittings_flanges": {
+        "share": 0.07, "uom": "each",
+        "unit_cost": (3, 400), "lead_time_days": (2, 14),
+        "weekly_demand": (5, 80), "demand_prob": 1.0,
+        "pattern": "seasonal", "trend_pct_per_year": (-3, 5),
+    },
+    "pipe": {
+        "share": 0.11, "uom": "joint",
+        "unit_cost": (100, 1500), "lead_time_days": (14, 32),
+        "weekly_demand": (2, 40), "demand_prob": 1.0,
+        "pattern": "seasonal", "trend_pct_per_year": (-3, 5),
+    },
+    "valves": {
+        "share": 0.10, "uom": "each",
+        "unit_cost": (50, 2500), "lead_time_days": (3, 30),
+        "weekly_demand": (1, 6), "demand_prob": (0.15, 0.40),
+        "pattern": "intermittent", "trend_pct_per_year": (-3, 5),
+    },
+    "instrumentation": {
+        "share": 0.10, "uom": "each",
+        "unit_cost": (5, 1500), "lead_time_days": (10, 45),
+        "weekly_demand": (1, 4), "demand_prob": (0.10, 0.30),
+        "pattern": "intermittent", "trend_pct_per_year": (-3, 5),
+    },
+    "inserts": {
+        "share": 0.10, "uom": "each",
+        "unit_cost": (600, 2000), "lead_time_days": (14, 32),
+        "weekly_demand": (5, 100), "demand_prob": (0.10, 0.25),
+        "pattern": "lumpy", "trend_pct_per_year": (-3, 5),
+    },
+}
+
+TREND_SHARE = 0.15
+ABC_CUTOFFS = (0.80, 0.95)
