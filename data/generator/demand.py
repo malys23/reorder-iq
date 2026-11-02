@@ -1,0 +1,1 @@
+#demand patterns: trend, seasonality, intermittent
