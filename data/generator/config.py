@@ -71,7 +71,7 @@ COMPANY_NAMES = [
     "Pipes R Us"
 ]
 
-SUPPLIERS = {
+SUPPLIER_INFO = {
     "lead_time_factor": (0.8, 1.4),
     "lead_time_cv": (0.05, 0.30),
     "on_time_rate": (0.80, 0.99),
