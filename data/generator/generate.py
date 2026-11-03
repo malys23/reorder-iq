@@ -12,9 +12,9 @@ def main():
 
     # Sanity check on generation
     print(len(items), Counter((i["category"], i["abc_class"]) for i in items))
-
+    print(min(i["lead_time_days"] for i in items), max(i["lead_time_days"] for i in items))
     #Demand checks
-    
+
 
 
 if __name__ == "__main__":
