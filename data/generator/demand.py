@@ -18,7 +18,7 @@ def smooth_demand(item, weeks, rng):
 
 def seasonal_demand(item, weeks, rng):
     base = smooth_demand(item, weeks, rng)
-    return base * trend(weeks, item["season_strength"], item["peak_week"])
+    return base * seasonality(weeks, item["season_strength"], item["peak_week"])
 
 def intermittent_demand(item, weeks, rng):
     occurs = rng.random(weeks) < item["demand_prob"]

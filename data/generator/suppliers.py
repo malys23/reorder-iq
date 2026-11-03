@@ -29,6 +29,11 @@ def group_suppliers_by_category(suppliers):
 
 #Returns generated suppliers grouped by category
 def generate_suppliers(company_names, supplier_info, categories, rng):
+    max_suppliers = supplier_info["per_category"][1] * len(categories)
+    assert len(company_names) >= max_suppliers, (
+        f"need at least {max_suppliers} company names, have {len(company_names)}"
+    )
+    
     names = list(company_names)
     rng.shuffle(names)
 
@@ -40,8 +45,8 @@ def generate_suppliers(company_names, supplier_info, categories, rng):
                 "supplier_id": len(suppliers) + 1,
                 "name": names[len(suppliers)],
                 "category": category_name,
-                **draw_supplier_attributes(rng)
+                **draw_supplier_attributes(supplier_info, rng)
             })
 
     suppliers_by_category = group_suppliers_by_category(suppliers)
-    return suppliers_by_category
+    return suppliers, suppliers_by_category
