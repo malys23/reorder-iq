@@ -13,8 +13,8 @@ CATEGORIES = {
     },
     "consumables": {
         "share": 0.25, "uom": "each",
-        "unit_cost": (3, 150), "lead_time_days": (2, 12),
-        "weekly_demand": (20, 300), "demand_prob": 1.0,
+        "unit_cost": (3, 70), "lead_time_days": (2, 12),
+        "weekly_demand": (20, 120), "demand_prob": 1.0,
         "pattern": "smooth", "trend_pct_per_year": (-3, 5),
     },
     "gaskets_seals": {
@@ -41,13 +41,13 @@ CATEGORIES = {
     "valves": {
         "share": 0.10, "uom": "each",
         "unit_cost": (50, 2500), "lead_time_days": (3, 30),
-        "weekly_demand": (1, 6), "demand_prob": (0.15, 0.40),
+        "weekly_demand": (2, 12), "demand_prob": (0.30, 0.60),
         "pattern": "intermittent", "trend_pct_per_year": (-3, 5),
     },
     "instrumentation": {
         "share": 0.10, "uom": "each",
         "unit_cost": (5, 1500), "lead_time_days": (10, 45),
-        "weekly_demand": (1, 4), "demand_prob": (0.10, 0.30),
+        "weekly_demand": (2, 10), "demand_prob": (0.25, 0.50),
         "pattern": "intermittent", "trend_pct_per_year": (-3, 5),
     },
     "inserts": {
@@ -68,7 +68,21 @@ COMPANY_NAMES = [
     "Aceways",
     "Blossom Motors",
     "BridgeRock",
-    "Pipes R Us"
+    "Pipes R Us",
+    "WaterlooInc",
+    "Reedsworth",
+    "Junglectics",
+    "Titaniumotors",
+    "Maze Navigations",
+    "Cyclolutions",
+    "Sunlight Technologies",
+    "Woodrover",
+    "Cannonics",
+    "Bearing Co",
+    "Microlutions",
+    "Boarwell",
+    "Graniteworld",
+    "Alphacast"
 ]
 
 SUPPLIER_INFO = {

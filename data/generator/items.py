@@ -1,8 +1,7 @@
 #main script: builds the tables and writes the CSV files
 import numpy as np
-from config import CATEGORIES, NUM_ITEMS, WEEKS, ABC_CUTOFFS, COMPANY_NAMES,  SUPPLIER_INFO
+from config import CATEGORIES, NUM_ITEMS, WEEKS, ABC_CUTOFFS
 from demand import generate_demand 
-from suppliers import generate_suppliers
 
 #Returns list of categories, count of which predetermined with share
 def build_category_list(rng):
@@ -31,7 +30,7 @@ def draw_item_attributes(category_name, suppliers_by_category, rng):
     cfg = CATEGORIES[category_name]
 
     #unit cost
-    low, high = cfg["unit cost"]
+    low, high = cfg["unit_cost"]
     unit_cost = round(draw_log_uniform(low, high, rng), 2)
 
     #lead time
@@ -65,7 +64,7 @@ def draw_item_attributes(category_name, suppliers_by_category, rng):
         peak_week = cfg["peak_week"] + int(rng.integers(-3,4))
     else:
         season_strength = 0.0
-        peak_week: 0.0
+        peak_week = 0
 
     return{
         "category": category_name,
@@ -82,8 +81,8 @@ def draw_item_attributes(category_name, suppliers_by_category, rng):
     }
 
 #Returns a complete item and its demand
-def make_item(item_id, category_name, rng):
-    attrs = draw_item_attributes(category_name, rng)
+def make_item(item_id, category_name, suppliers_by_category, rng):
+    attrs = draw_item_attributes(category_name, suppliers_by_category, rng)
     demand = generate_demand(attrs, WEEKS, rng)
 
     item = {"item_id": item_id, **attrs}
@@ -110,13 +109,13 @@ def assign_abc_classes(items):
         else:
             item["abc_class"] = "C"
 
-def generate_items(rng):
+def generate_items(suppliers_by_category, rng):
     categories = build_category_list(rng)
 
     items = []
-    demand_by_item = []
+    demand_by_item = {}
     for item_id, category_name in enumerate(categories, start=1):
-        item, demand = make_item(item_id, category_name, rng)
+        item, demand = make_item(item_id, category_name, suppliers_by_category, rng)
         items.append(item)
         demand_by_item[item_id] = demand
 
