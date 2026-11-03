@@ -1,7 +1,8 @@
 #main script: builds the tables and writes the CSV files
 import numpy as np
-from config import CATEGORIES, FIXED_SEED, NUM_ITEMS, WEEKS, ABC_CUTOFFS
+from config import CATEGORIES, NUM_ITEMS, WEEKS, ABC_CUTOFFS, COMPANY_NAMES,  SUPPLIER_INFO
 from demand import generate_demand 
+from suppliers import generate_suppliers
 
 #Returns list of categories, count of which predetermined with share
 def build_category_list(rng):
@@ -26,7 +27,7 @@ def draw_log_uniform(low, high, rng):
     return round(float(np.exp(rng.uniform(np.log(low), np.log(high)))), 2)
 
 #Return a list of attributes for a specific category name (item)
-def draw_item_attributes(category_name, rng):
+def draw_item_attributes(category_name, suppliers_by_category, rng):
     cfg = CATEGORIES[category_name]
 
     #unit cost
@@ -35,7 +36,12 @@ def draw_item_attributes(category_name, rng):
 
     #lead time
     low, high = cfg["lead_time_days"]
-    lead_time = int(rng.integers(low, high+1))
+    base_lead_time = int(rng.integers(low, high+1))
+
+    options = suppliers_by_category[category_name]
+    supplier = options[int(rng.integers(len(options)))]
+
+    lead_time = max(1, round(base_lead_time * supplier["lead_time_factor"]))
 
     #weekly demand
     low, high = cfg["weekly_demand"]
@@ -63,6 +69,8 @@ def draw_item_attributes(category_name, rng):
 
     return{
         "category": category_name,
+        "supplier_id": supplier["supplier_id"],
+        "supplier_name": supplier["name"],
         "unit_cost": unit_cost,
         "lead_time_days": lead_time,
         "base_demand": base_demand,
@@ -102,8 +110,7 @@ def assign_abc_classes(items):
         else:
             item["abc_class"] = "C"
 
-def generate_items():
-    rng = np.random.default_rng(FIXED_SEED)
+def generate_items(rng):
     categories = build_category_list(rng)
 
     items = []
