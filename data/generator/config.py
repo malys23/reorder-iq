@@ -3,7 +3,7 @@
 FIXED_SEED = 42
 NUM_ITEMS = 300
 WEEKS = 104
-
+ABC_CUTOFFS = (0.80, 0.95)
 CATEGORIES = {
     "fasteners": {
         "share": 0.20, "uom": "each",
@@ -58,5 +58,23 @@ CATEGORIES = {
     },
 }
 
-TREND_SHARE = 0.15
-ABC_CUTOFFS = (0.80, 0.95)
+COMPANY_NAMES = [
+    "White Mountain",
+    "Gronger",
+    "Firstenal",
+    "Low Industries",
+    "Moar Solutions",
+    "RidgeCo",
+    "Aceways",
+    "Blossom Motors",
+    "BridgeRock",
+    "Pipes R Us"
+]
+
+SUPPLIERS = {
+    "lead_time_factor": (0.8, 1.4),
+    "lead_time_cv": (0.05, 0.30),
+    "on_time_rate": (0.80, 0.99),
+    "min_order_value": (0.5, 600.00),
+    "per_category": (1, 3)
+}
