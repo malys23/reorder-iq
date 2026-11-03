@@ -14,7 +14,7 @@ def seasonality(weeks, strength, peak_week):
 def smooth_demand(item, weeks, rng):
     base = item["base_demand"]
     noise = rng.normal(1, 0.10, weeks)
-    return base * trend(weeks, item["trend"]) * noise
+    return base * trend(weeks, item["trend_pct_per_year"]) * noise
 
 def seasonal_demand(item, weeks, rng):
     base = smooth_demand(item, weeks, rng)
@@ -23,12 +23,12 @@ def seasonal_demand(item, weeks, rng):
 def intermittent_demand(item, weeks, rng):
     occurs = rng.random(weeks) < item["demand_prob"]
     size = rng.poisson(item["base_demand"], weeks)
-    return occurs * size * trend(weeks, item["trend"])
+    return occurs * size * trend(weeks, item["trend_pct_per_year"])
 
 def lumpy_demand(item, weeks, rng):
     occurs = rng.random(weeks) < item["demand_prob"]
     size = rng.lognormal(np.log(item["base_demand"]), 0.8, weeks)
-    return occurs * size * trend(weeks, item["trend"])
+    return occurs * size * trend(weeks, item["trend_pct_per_year"])
 
 PATTERNS ={
     "smooth": smooth_demand,

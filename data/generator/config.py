@@ -22,18 +22,21 @@ CATEGORIES = {
         "unit_cost": (1.5, 300), "lead_time_days": (3, 8),
         "weekly_demand": (5, 150), "demand_prob": 1.0,
         "pattern": "seasonal", "trend_pct_per_year": (-3, 5),
+        "season_strength": (0.25, 0.50), "peak_week": 12,
     },
     "fittings_flanges": {
         "share": 0.07, "uom": "each",
         "unit_cost": (3, 400), "lead_time_days": (2, 14),
         "weekly_demand": (5, 80), "demand_prob": 1.0,
         "pattern": "seasonal", "trend_pct_per_year": (-3, 5),
+        "season_strength": (0.15, 0.35), "peak_week": 24,
     },
     "pipe": {
         "share": 0.11, "uom": "joint",
         "unit_cost": (100, 1500), "lead_time_days": (14, 32),
         "weekly_demand": (2, 40), "demand_prob": 1.0,
         "pattern": "seasonal", "trend_pct_per_year": (-3, 5),
+        "season_strength": (0.15, 0.30), "peak_week": 32,
     },
     "valves": {
         "share": 0.10, "uom": "each",
