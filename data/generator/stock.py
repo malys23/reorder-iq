@@ -1,5 +1,6 @@
 import numpy as np
-from config import STATS_WEEKS, Z_BY_CLASS, STOCK_SITUATIONS, NUM_ITEMS
+import math
+from config import STATS_WEEKS, Z_BY_CLASS, ON_HAND_RULES, ON_ORDER_RULES, NUM_ITEMS
 from utils import build_counted_list
 
 #Returns (d, sigma_d): daily demand mean and daily demand standard deviation
@@ -18,26 +19,40 @@ def reorder_point(d, sigma_d, lead_time_days, z):
 #Returns how much stock is on hand for a specific siuation
 def draw_on_hand(situation, rop, d, rng):
     on_hand = 0
-    cfg = STOCK_SITUATIONS[situation]
-    if cfg["kind"] == "zero":
+    rule = ON_HAND_RULES[situation]
+    if rule["kind"] == "zero":
         return on_hand
-    low, high = cfg["range"]
+    low, high = rule["range"]
     x = rng.uniform(low, high)
-    if cfg["kind"] == "rop_multiple":
-        on_hand = int(rop * x)
+    if rule["kind"] == "rop_multiple":
+        on_hand = math.ceil(rop * x)
         return on_hand 
-    on_hand = int(rop + d*x)
+    on_hand = math.ceil(rop + d*x)
     return on_hand
+
+#Returns how much stock is
+def draw_on_order(situation, on_hand, rop, d, rng):
+    rule = ON_ORDER_RULES[situation]
+    if rng.random() >= rule["prob"]:
+        return 0
+
+    low, high = rule["days_range"]
+    days = rng.uniform(low, high)
+    if rule["kind"] == "restore_position":
+        on_order = max(0, int(rop+d * days-on_hand))
+        return on_order
+    on_order = int(d*days)
+    return on_order    
 
 #Returns stock levels
 def generate_stock_levels(items, demand_by_item, rng):
-    situations = build_counted_list(STOCK_SITUATIONS, NUM_ITEMS, rng)
+    situations = build_counted_list(ON_HAND_RULES, NUM_ITEMS, rng)
     stock= []
     for item, situation in zip(items, situations):
         d, sigma_d = demand_stats(demand_by_item[item["item_id"]])
         z = Z_BY_CLASS[item["abc_class"]]
         rop, _ = reorder_point(d, sigma_d, item["lead_time_days"], z)
         on_hand = draw_on_hand(situation, rop, d, rng)
-
-    
+        on_order = draw_on_order(situation, on_hand, rop, d, rng)
+        stock.append({"item_id":item["item_id"], "on_hand": on_hand, "on_order": on_order})
     return stock
