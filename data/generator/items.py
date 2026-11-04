@@ -1,25 +1,8 @@
 #main script: builds the tables and writes the CSV files
 import numpy as np
 from config import CATEGORIES, NUM_ITEMS, WEEKS, ABC_CUTOFFS
+from utils import build_counted_list
 from demand import generate_demand 
-
-#Returns list of categories, count of which predetermined with share
-def build_category_list(rng):
-    counts = {}
-    for name, cfg in CATEGORIES.items():
-        counts[name] = round(NUM_ITEMS * cfg["share"])
-
-    diff = NUM_ITEMS - sum(counts.values())
-    largest = max(counts, key=counts.get)
-    counts[largest] += diff
-
-    names = []
-    for name, n in counts.items():
-        for _ in range(n):
-            names.append(name)
-
-    rng.shuffle(names)
-    return names
 
 #Return random value between low and high, skewed towards low
 def draw_log_uniform(low, high, rng):
@@ -109,8 +92,9 @@ def assign_abc_classes(items):
         else:
             item["abc_class"] = "C"
 
+#Returns generated items, and demand for each item
 def generate_items(suppliers_by_category, rng):
-    categories = build_category_list(rng)
+    categories = build_counted_list(CATEGORIES, NUM_ITEMS, rng)
 
     items = []
     demand_by_item = {}
