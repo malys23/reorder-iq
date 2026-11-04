@@ -84,11 +84,23 @@ COMPANY_NAMES = [
     "Graniteworld",
     "Alphacast"
 ]
-
 SUPPLIER_INFO = {
     "lead_time_factor": (0.8, 1.4),
     "lead_time_cv": (0.05, 0.30),
     "on_time_rate": (0.80, 0.99),
     "min_order_value": (0.5, 600.00),
     "per_category": (1, 3)
+}
+
+STATS_WEEKS = 26
+Z_BY_CLASS= {
+    "A": 2.05,  # ~98% service level
+    "B": 1.645, # ~95%
+    "C": 1.28   # 90%
+}
+STOCK_SITUATIONS = {
+    "stockout": {"share": 0.05, "kind":"zero", "range": 0},
+    "below_rop": {"share": 0.20,"kind": "rop_multiple", "range": (0.2, 1.0)},
+    "healthy": {"share": 0.60, "kind":"days_above_top", "range": (0, 45)},
+    "excess": {"share": 0.15, "kind": "days_above_top", "range": (100, 200)}
 }
