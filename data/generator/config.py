@@ -98,9 +98,15 @@ Z_BY_CLASS= {
     "B": 1.645, # ~95%
     "C": 1.28   # 90%
 }
-STOCK_SITUATIONS = {
+ON_HAND_RULES = {
     "stockout": {"share": 0.05, "kind":"zero", "range": 0},
     "below_rop": {"share": 0.20,"kind": "rop_multiple", "range": (0.2, 1.0)},
     "healthy": {"share": 0.60, "kind":"days_above_top", "range": (0, 45)},
     "excess": {"share": 0.15, "kind": "days_above_top", "range": (100, 200)}
+}
+ON_ORDER_RULES = {
+    "stockout": {"prob": 0.50, "kind":"restore_position", "days_range": (14, 45)},
+    "below_rop": {"prob": 0.35,"kind": "restore_position", "days_range": (14, 45)},
+    "healthy": {"prob": 0.10, "kind":"days_of_demand", "days_range": (7, 30)},
+    "excess": {"prob": 0.0, "kind": "none", "days_range": 0}
 }
