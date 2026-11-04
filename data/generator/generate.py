@@ -5,7 +5,6 @@ from config import FIXED_SEED, COMPANY_NAMES, SUPPLIER_INFO, CATEGORIES
 from suppliers import generate_suppliers
 from items import generate_items
 from stock import generate_stock_levels
-from validate import validate
 
 def main():
     rng = np.random.default_rng(FIXED_SEED)
