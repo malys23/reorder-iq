@@ -1,4 +1,5 @@
 #seed, number of items, weeks of history, parameter ranges
+from datetime import date
 
 FIXED_SEED = 42
 NUM_ITEMS = 300
@@ -110,3 +111,20 @@ ON_ORDER_RULES = {
     "healthy": {"prob": 0.10, "kind":"days_of_demand", "days_range": (7, 30)},
     "excess": {"prob": 0.0, "kind": "none", "days_range": 0}
 }
+
+AS_OF = date(2026, 10, 30)
+USER_IDS = {"planner": 1, "approver": 2, "receiver": 3}
+CREATED_AT_RULES = {
+    "draft": (1, 2), #anchors on created_date
+    "submitted": (1, 4), #anchors on submitted_at
+    "approved": (2, 6), #anchors on approved date
+    "ordered": (0, 1), #anchors on ordered_date, is fraction of the item's lead time, not days
+    "received": (7, 84) #anchors on recieve date
+}
+STEP_GAPS = {
+    "created_to_submitted": {"days":(0,1,2), "probs":(0.5, 0.3, 0.2)},
+    "submitted_to_approved": {"days": (0,1,2,3), "probs":(0.11, 0.27, 0.35, 0.27)},
+    "approved_to_ordered": {"days":(0,1,2), "probs":(0.5, 0.3, 0.2)}
+}
+DSA_PROBABILITIES = {"step_name": ("draft", "submitted", "approved"), "probs":(0.3, 0.5, 0.2)}
+HE_SHARES = {"healthy": 0.25, "excess": 0.35, 'stockout': 0.9, 'below_rop': 0.70}

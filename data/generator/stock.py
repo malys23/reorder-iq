@@ -39,7 +39,7 @@ def draw_on_order(situation, on_hand, rop, d, rng):
     low, high = rule["days_range"]
     days = rng.uniform(low, high)
     if rule["kind"] == "restore_position":
-        on_order = max(0, int(rop+d * days-on_hand))
+        on_order = max(0, int(rop + d * days - on_hand))
         return on_order
     on_order = int(d*days)
     return on_order    
@@ -48,6 +48,7 @@ def draw_on_order(situation, on_hand, rop, d, rng):
 def generate_stock_levels(items, demand_by_item, rng):
     situations = build_counted_list(ON_HAND_RULES, NUM_ITEMS, rng)
     stock= []
+    reorder_info = {}
     for item, situation in zip(items, situations):
         d, sigma_d = demand_stats(demand_by_item[item["item_id"]])
         z = Z_BY_CLASS[item["abc_class"]]
@@ -55,4 +56,5 @@ def generate_stock_levels(items, demand_by_item, rng):
         on_hand = draw_on_hand(situation, rop, d, rng)
         on_order = draw_on_order(situation, on_hand, rop, d, rng)
         stock.append({"item_id":item["item_id"], "on_hand": on_hand, "on_order": on_order})
-    return stock
+        reorder_info[item["item_id"]] = {"d": d, "sigma_d": sigma_d, "rop":rop, "situation": situation}
+    return stock, reorder_info
