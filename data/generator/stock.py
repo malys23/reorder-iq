@@ -22,11 +22,13 @@ def draw_on_hand(situation, rop, d, rng):
     rule = ON_HAND_RULES[situation]
     if rule["kind"] == "zero":
         return on_hand
+    
     low, high = rule["range"]
     x = rng.uniform(low, high)
     if rule["kind"] == "rop_multiple":
-        on_hand = math.ceil(rop * x)
+        on_hand = math.floor(rop * x)
         return on_hand 
+    
     on_hand = math.ceil(rop + d*x)
     return on_hand
 

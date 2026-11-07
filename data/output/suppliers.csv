@@ -1,0 +1,18 @@
+supplier_id,name,category,lead_time_cv,on_time_rate
+1,Sunlight Technologies,fasteners,0.16,0.84
+2,Cyclolutions,fasteners,0.07,0.96
+3,Cannonics,consumables,0.14,0.98
+4,Bearing Co,gaskets_seals,0.24,0.84
+5,Pipes R Us,gaskets_seals,0.06,0.83
+6,Blossom Motors,fittings_flanges,0.29,0.86
+7,Woodrover,fittings_flanges,0.17,0.84
+8,Alphacast,fittings_flanges,0.17,0.84
+9,Aceways,pipe,0.16,0.96
+10,WaterlooInc,pipe,0.13,0.96
+11,Low Industries,pipe,0.15,0.85
+12,White Mountain,valves,0.1,0.8
+13,Microlutions,instrumentation,0.22,0.93
+14,Junglectics,instrumentation,0.16,0.91
+15,RidgeCo,instrumentation,0.08,0.93
+16,Reedsworth,inserts,0.24,0.92
+17,Maze Navigations,inserts,0.19,0.86

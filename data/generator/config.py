@@ -1,9 +1,11 @@
 #seed, number of items, weeks of history, parameter ranges
 from datetime import date
+from pathlib import Path
 
 FIXED_SEED = 42
 NUM_ITEMS = 300
 WEEKS = 104
+WEEK_START = date(2024, 11, 1)
 ABC_CUTOFFS = (0.80, 0.95)
 CATEGORIES = {
     "fasteners": {
@@ -109,7 +111,7 @@ ON_ORDER_RULES = {
     "stockout": {"prob": 0.50, "kind":"restore_position", "days_range": (14, 45)},
     "below_rop": {"prob": 0.35,"kind": "restore_position", "days_range": (14, 45)},
     "healthy": {"prob": 0.10, "kind":"days_of_demand", "days_range": (7, 30)},
-    "excess": {"prob": 0.0, "kind": "none", "days_range": 0}
+    "excess": {"prob": 0.0, "kind": "none", "days_range": (0, 0)}
 }
 
 AS_OF = date(2026, 10, 30)
@@ -128,3 +130,16 @@ STEP_GAPS = {
 }
 DSA_PROBABILITIES = {"step_name": ("draft", "submitted", "approved"), "probs":(0.3, 0.5, 0.2)}
 HE_SHARES = {"healthy": 0.25, "excess": 0.35, 'stockout': 0.9, 'below_rop': 0.70}
+RECEIVED_DAYS_RANGE = {
+    "healthy": {"days_range": (7, 30)},
+    "excess": {"days_range": (7, 30)}
+}
+
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
+COLUMN_NAMES = {
+        "suppliers": ["supplier_id", "name", "category", "lead_time_cv", "on_time_rate"],
+        "items": ["item_id", "name", "category", "supplier_id", "unit_cost", "lead_time_days", "abc_class"],
+        "stock_levels": ["item_id", "on_hand", "on_order"],
+        "demand_history": ["item_id", "week_start", "quantity"],
+        "purchase_requests": ["request_id", "item_id", "quantity", "needed_by", "created_at", "requested_by", "status","submitted_at", "approved_at", "approved_by", "ordered_at", "received_at", "received_by"]
+}
