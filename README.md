@@ -63,8 +63,8 @@ FastAPI forecasting service (baselines + neural network)
  
 ## Roadmap
  
-- [ ] Repo setup: README, `.gitignore`, license
-- [ ] Synthetic dataset generator
+- [x] Repo setup: README, `.gitignore`, license
+- [x] Synthetic dataset generator
 - [ ] Database schema (items, suppliers, stock levels, demand history, purchase requests, forecasts, users)
 - [ ] Spring Boot API for items, stock levels and purchase requests
 - [ ] Login and roles
