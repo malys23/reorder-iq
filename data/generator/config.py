@@ -1,11 +1,11 @@
 #seed, number of items, weeks of history, parameter ranges
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 FIXED_SEED = 42
 NUM_ITEMS = 300
 WEEKS = 104
-WEEK_START = date(2024, 11, 1)
+WEEK_START = date(2024, 11, 4)
 ABC_CUTOFFS = (0.80, 0.95)
 CATEGORIES = {
     "fasteners": {
@@ -114,7 +114,7 @@ ON_ORDER_RULES = {
     "excess": {"prob": 0.0, "kind": "none", "days_range": (0, 0)}
 }
 
-AS_OF = date(2026, 10, 30)
+AS_OF = WEEK_START + timedelta(weeks=104)
 USER_IDS = {"planner": 1, "approver": 2, "receiver": 3}
 CREATED_AT_RULES = {
     "draft": (1, 2), #anchors on created_date
