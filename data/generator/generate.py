@@ -15,8 +15,6 @@ def main():
     stock, reorder_info = generate_stock_levels(items, demand_by_item, rng) 
     purchase_requests = generate_purchase_requests(items, stock, suppliers, reorder_info, rng)
 
-    validate(items, demand_by_item, stock, reorder_info, purchase_requests)
-
     #formatting demand to match items
     final_demand = []
     for item_id, quantities in demand_by_item.items():
@@ -27,6 +25,8 @@ def main():
                 "quantity": int(quantity)
             }
             final_demand.append(row)
+
+    validate(items, suppliers, demand_by_item, final_demand, stock, reorder_info, purchase_requests)
 
     files_to_generate = {
         "suppliers": suppliers,

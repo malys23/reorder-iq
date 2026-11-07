@@ -26,3 +26,12 @@ def generate_formatted_csv(file_name, rows, column_names):
         writer = csv.DictWriter(csvfile, fieldnames=column_names, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
+
+#report format for validation
+def _report(title, summary, failures, show):
+    print(f"{title}: {summary}")
+    if not failures:
+        print("  all checks passed")
+    for name, ids in failures.items():
+        print(f"  FAILED: {name}: {len(ids)}  e.g. {ids[:show]}")
+    return dict(failures)
