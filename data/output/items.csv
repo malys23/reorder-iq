@@ -1,0 +1,301 @@
+item_id,name,category,supplier_id,unit_cost,lead_time_days,abc_class
+1,Consumables 001,consumables,3,4.58,12,C
+2,Fasteners 002,fasteners,2,0.07,8,C
+3,Consumables 003,consumables,3,4.37,9,C
+4,Fittings Flanges 004,fittings_flanges,8,5.12,12,C
+5,Valves 005,valves,12,1343.23,15,B
+6,Fasteners 006,fasteners,2,1.77,11,C
+7,Valves 007,valves,12,2324.43,13,B
+8,Valves 008,valves,12,1155.64,14,B
+9,Valves 009,valves,12,151.64,25,C
+10,Fittings Flanges 010,fittings_flanges,8,4.56,6,C
+11,Consumables 011,consumables,3,47.74,11,A
+12,Instrumentation 012,instrumentation,14,28.25,55,C
+13,Pipe 013,pipe,10,125.23,27,C
+14,Fasteners 014,fasteners,2,2.97,11,C
+15,Pipe 015,pipe,10,213.76,30,B
+16,Instrumentation 016,instrumentation,14,396.81,34,C
+17,Inserts 017,inserts,16,815.52,34,A
+18,Fasteners 018,fasteners,2,0.11,8,C
+19,Gaskets Seals 019,gaskets_seals,4,10.44,7,C
+20,Instrumentation 020,instrumentation,13,20.73,17,C
+21,Fittings Flanges 021,fittings_flanges,8,102.45,8,B
+22,Valves 022,valves,12,183.56,23,C
+23,Fasteners 023,fasteners,1,1.27,13,C
+24,Instrumentation 024,instrumentation,13,28.58,18,C
+25,Inserts 025,inserts,16,1944.82,21,A
+26,Consumables 026,consumables,3,5.01,9,C
+27,Consumables 027,consumables,3,8.83,15,C
+28,Gaskets Seals 028,gaskets_seals,5,24.57,5,C
+29,Fasteners 029,fasteners,2,0.07,8,C
+30,Fasteners 030,fasteners,2,0.17,6,C
+31,Pipe 031,pipe,11,143.45,23,A
+32,Consumables 032,consumables,3,14.52,6,C
+33,Consumables 033,consumables,3,8.66,11,C
+34,Consumables 034,consumables,3,4.55,2,C
+35,Pipe 035,pipe,9,1305.02,31,A
+36,Fasteners 036,fasteners,2,0.47,6,C
+37,Instrumentation 037,instrumentation,15,1233.25,27,B
+38,Inserts 038,inserts,16,1165.67,36,A
+39,Consumables 039,consumables,3,69.46,14,A
+40,Fasteners 040,fasteners,2,1.25,8,C
+41,Inserts 041,inserts,16,1393.99,18,A
+42,Fasteners 042,fasteners,2,0.43,10,C
+43,Consumables 043,consumables,3,52.51,15,B
+44,Gaskets Seals 044,gaskets_seals,4,2.31,4,C
+45,Inserts 045,inserts,17,1025.81,23,A
+46,Fasteners 046,fasteners,2,0.05,9,C
+47,Consumables 047,consumables,3,11.35,10,C
+48,Inserts 048,inserts,16,1626.97,17,A
+49,Instrumentation 049,instrumentation,14,1121.17,19,B
+50,Instrumentation 050,instrumentation,15,423.56,28,C
+51,Valves 051,valves,12,836.63,18,B
+52,Pipe 052,pipe,10,456.78,30,A
+53,Pipe 053,pipe,9,278.86,23,A
+54,Fasteners 054,fasteners,1,0.18,4,C
+55,Fasteners 055,fasteners,2,0.48,5,C
+56,Pipe 056,pipe,11,392.57,28,A
+57,Instrumentation 057,instrumentation,15,348.04,25,C
+58,Consumables 058,consumables,3,21.84,15,B
+59,Gaskets Seals 059,gaskets_seals,4,5.0,11,C
+60,Pipe 060,pipe,9,1228.79,23,A
+61,Gaskets Seals 061,gaskets_seals,5,22.92,4,B
+62,Valves 062,valves,12,1053.6,25,B
+63,Fasteners 063,fasteners,2,0.1,9,C
+64,Consumables 064,consumables,3,13.84,8,B
+65,Consumables 065,consumables,3,6.05,9,C
+66,Fasteners 066,fasteners,2,0.16,11,C
+67,Instrumentation 067,instrumentation,14,186.79,19,C
+68,Fasteners 068,fasteners,1,0.14,4,C
+69,Inserts 069,inserts,17,1668.7,19,A
+70,Fasteners 070,fasteners,2,0.12,9,C
+71,Consumables 071,consumables,3,45.8,10,A
+72,Inserts 072,inserts,16,913.56,17,A
+73,Gaskets Seals 073,gaskets_seals,4,12.89,4,B
+74,Gaskets Seals 074,gaskets_seals,5,4.65,3,C
+75,Gaskets Seals 075,gaskets_seals,4,53.65,4,B
+76,Consumables 076,consumables,3,15.67,14,C
+77,Instrumentation 077,instrumentation,13,244.68,38,C
+78,Consumables 078,consumables,3,11.67,11,C
+79,Fittings Flanges 079,fittings_flanges,8,59.89,12,B
+80,Pipe 080,pipe,9,950.93,20,A
+81,Consumables 081,consumables,3,21.87,5,B
+82,Instrumentation 082,instrumentation,13,36.07,55,C
+83,Gaskets Seals 083,gaskets_seals,5,9.86,3,B
+84,Inserts 084,inserts,16,1372.95,23,C
+85,Fittings Flanges 085,fittings_flanges,6,24.46,2,C
+86,Consumables 086,consumables,3,14.42,10,C
+87,Instrumentation 087,instrumentation,15,160.74,24,C
+88,Inserts 088,inserts,16,1784.69,24,A
+89,Fasteners 089,fasteners,2,0.13,10,C
+90,Fittings Flanges 090,fittings_flanges,8,7.01,11,C
+91,Fasteners 091,fasteners,1,0.18,9,C
+92,Instrumentation 092,instrumentation,14,976.46,42,B
+93,Fasteners 093,fasteners,1,1.27,8,C
+94,Gaskets Seals 094,gaskets_seals,5,2.53,6,C
+95,Consumables 095,consumables,3,26.58,11,C
+96,Instrumentation 096,instrumentation,14,150.56,34,C
+97,Valves 097,valves,12,1341.32,15,A
+98,Consumables 098,consumables,3,4.8,8,C
+99,Pipe 099,pipe,11,849.45,37,A
+100,Valves 100,valves,12,64.07,22,C
+101,Fasteners 101,fasteners,1,1.2,13,C
+102,Pipe 102,pipe,10,653.45,38,A
+103,Valves 103,valves,12,2422.69,22,A
+104,Consumables 104,consumables,3,34.67,6,B
+105,Fasteners 105,fasteners,1,0.2,10,C
+106,Fasteners 106,fasteners,2,0.15,5,C
+107,Consumables 107,consumables,3,26.14,10,B
+108,Consumables 108,consumables,3,7.05,4,C
+109,Consumables 109,consumables,3,7.74,12,C
+110,Instrumentation 110,instrumentation,15,515.5,25,C
+111,Valves 111,valves,12,179.74,18,B
+112,Consumables 112,consumables,3,16.86,15,C
+113,Consumables 113,consumables,3,33.99,6,B
+114,Fittings Flanges 114,fittings_flanges,7,101.5,13,C
+115,Fasteners 115,fasteners,2,0.22,10,C
+116,Inserts 116,inserts,17,795.97,24,A
+117,Fasteners 117,fasteners,1,0.59,13,C
+118,Consumables 118,consumables,3,64.99,11,B
+119,Consumables 119,consumables,3,56.77,12,A
+120,Fittings Flanges 120,fittings_flanges,8,3.78,11,C
+121,Valves 121,valves,12,194.79,15,C
+122,Fittings Flanges 122,fittings_flanges,7,203.85,14,A
+123,Consumables 123,consumables,3,54.28,6,B
+124,Gaskets Seals 124,gaskets_seals,5,2.74,3,C
+125,Consumables 125,consumables,3,6.01,8,C
+126,Inserts 126,inserts,16,945.09,23,A
+127,Consumables 127,consumables,3,9.01,11,C
+128,Inserts 128,inserts,17,1064.25,17,A
+129,Inserts 129,inserts,16,940.71,22,A
+130,Fasteners 130,fasteners,2,0.1,8,C
+131,Pipe 131,pipe,11,226.14,41,B
+132,Consumables 132,consumables,3,18.75,12,B
+133,Fasteners 133,fasteners,2,0.09,10,C
+134,Consumables 134,consumables,3,12.87,9,C
+135,Pipe 135,pipe,11,461.46,41,B
+136,Fasteners 136,fasteners,1,1.22,5,C
+137,Fasteners 137,fasteners,2,0.09,5,C
+138,Instrumentation 138,instrumentation,15,370.58,26,C
+139,Inserts 139,inserts,16,1434.62,26,B
+140,Gaskets Seals 140,gaskets_seals,5,28.4,9,B
+141,Pipe 141,pipe,9,1174.73,22,A
+142,Instrumentation 142,instrumentation,13,8.02,36,C
+143,Fasteners 143,fasteners,2,0.12,10,C
+144,Fasteners 144,fasteners,2,0.77,3,C
+145,Fasteners 145,fasteners,1,1.45,9,C
+146,Consumables 146,consumables,3,23.15,2,C
+147,Consumables 147,consumables,3,6.12,9,C
+148,Consumables 148,consumables,3,6.75,9,C
+149,Gaskets Seals 149,gaskets_seals,4,4.93,7,C
+150,Consumables 150,consumables,3,47.9,4,B
+151,Fasteners 151,fasteners,2,0.83,10,C
+152,Pipe 152,pipe,10,816.53,27,A
+153,Consumables 153,consumables,3,9.44,11,C
+154,Consumables 154,consumables,3,26.07,5,B
+155,Consumables 155,consumables,3,20.04,12,C
+156,Valves 156,valves,12,65.34,13,C
+157,Pipe 157,pipe,11,1097.07,24,A
+158,Fasteners 158,fasteners,1,1.07,5,C
+159,Valves 159,valves,12,91.21,20,C
+160,Fittings Flanges 160,fittings_flanges,7,61.77,4,B
+161,Consumables 161,consumables,3,3.35,14,C
+162,Pipe 162,pipe,9,1174.93,23,A
+163,Fasteners 163,fasteners,2,0.47,6,C
+164,Pipe 164,pipe,9,510.02,25,A
+165,Instrumentation 165,instrumentation,14,23.36,30,C
+166,Consumables 166,consumables,3,38.1,14,B
+167,Pipe 167,pipe,9,350.34,29,B
+168,Fasteners 168,fasteners,2,0.53,5,C
+169,Inserts 169,inserts,17,777.11,23,A
+170,Pipe 170,pipe,9,125.62,18,B
+171,Fasteners 171,fasteners,1,1.51,9,C
+172,Consumables 172,consumables,3,56.87,10,A
+173,Fittings Flanges 173,fittings_flanges,6,10.95,12,C
+174,Fasteners 174,fasteners,2,2.48,10,C
+175,Pipe 175,pipe,9,388.72,38,A
+176,Consumables 176,consumables,3,34.42,2,B
+177,Consumables 177,consumables,3,9.5,4,C
+178,Inserts 178,inserts,17,1314.98,33,A
+179,Valves 179,valves,12,55.19,11,C
+180,Gaskets Seals 180,gaskets_seals,4,63.9,7,A
+181,Fittings Flanges 181,fittings_flanges,7,55.37,14,B
+182,Pipe 182,pipe,11,136.37,27,B
+183,Inserts 183,inserts,17,1006.83,24,A
+184,Gaskets Seals 184,gaskets_seals,5,47.88,3,B
+185,Gaskets Seals 185,gaskets_seals,4,89.84,8,A
+186,Consumables 186,consumables,3,13.97,14,C
+187,Gaskets Seals 187,gaskets_seals,5,1.52,6,C
+188,Consumables 188,consumables,3,40.72,15,B
+189,Instrumentation 189,instrumentation,13,192.46,48,C
+190,Consumables 190,consumables,3,69.51,4,A
+191,Inserts 191,inserts,17,641.36,23,C
+192,Fittings Flanges 192,fittings_flanges,7,3.85,11,C
+193,Fasteners 193,fasteners,1,0.66,9,C
+194,Valves 194,valves,12,91.44,4,C
+195,Consumables 195,consumables,3,8.17,12,C
+196,Consumables 196,consumables,3,16.66,4,C
+197,Fittings Flanges 197,fittings_flanges,7,37.82,11,B
+198,Pipe 198,pipe,10,283.69,32,A
+199,Valves 199,valves,12,58.75,9,C
+200,Instrumentation 200,instrumentation,14,175.69,19,C
+201,Valves 201,valves,12,405.27,11,B
+202,Fasteners 202,fasteners,1,0.21,6,C
+203,Fasteners 203,fasteners,1,0.22,9,C
+204,Fittings Flanges 204,fittings_flanges,6,90.05,9,B
+205,Instrumentation 205,instrumentation,15,1217.76,14,B
+206,Fasteners 206,fasteners,2,0.08,9,C
+207,Consumables 207,consumables,3,36.67,9,B
+208,Valves 208,valves,12,54.74,5,C
+209,Consumables 209,consumables,3,52.27,15,A
+210,Fittings Flanges 210,fittings_flanges,8,10.31,6,C
+211,Inserts 211,inserts,17,632.38,32,A
+212,Instrumentation 212,instrumentation,13,1405.34,18,B
+213,Pipe 213,pipe,9,986.98,25,A
+214,Fasteners 214,fasteners,2,0.09,9,C
+215,Instrumentation 215,instrumentation,13,74.64,29,C
+216,Fasteners 216,fasteners,2,0.72,6,C
+217,Inserts 217,inserts,17,1485.82,31,A
+218,Consumables 218,consumables,3,40.67,9,B
+219,Valves 219,valves,12,2262.37,5,B
+220,Valves 220,valves,12,469.84,18,B
+221,Consumables 221,consumables,3,7.54,15,C
+222,Inserts 222,inserts,17,678.32,35,C
+223,Instrumentation 223,instrumentation,14,74.57,23,C
+224,Inserts 224,inserts,17,897.07,28,B
+225,Consumables 225,consumables,3,12.23,4,C
+226,Inserts 226,inserts,17,1586.62,32,B
+227,Valves 227,valves,12,160.27,11,C
+228,Fasteners 228,fasteners,1,0.56,6,C
+229,Valves 229,valves,12,358.11,22,C
+230,Fittings Flanges 230,fittings_flanges,8,126.35,11,B
+231,Consumables 231,consumables,3,36.55,11,B
+232,Inserts 232,inserts,16,693.09,19,B
+233,Inserts 233,inserts,16,912.51,26,A
+234,Inserts 234,inserts,17,1088.66,27,A
+235,Fasteners 235,fasteners,2,0.17,9,C
+236,Fittings Flanges 236,fittings_flanges,8,9.09,11,C
+237,Instrumentation 237,instrumentation,15,37.26,11,C
+238,Gaskets Seals 238,gaskets_seals,5,20.02,8,B
+239,Valves 239,valves,12,908.67,6,B
+240,Fittings Flanges 240,fittings_flanges,6,167.23,4,B
+241,Gaskets Seals 241,gaskets_seals,5,7.84,3,C
+242,Valves 242,valves,12,118.34,7,C
+243,Pipe 243,pipe,11,478.69,18,A
+244,Instrumentation 244,instrumentation,14,848.43,37,C
+245,Fittings Flanges 245,fittings_flanges,6,3.5,4,C
+246,Consumables 246,consumables,3,20.82,10,C
+247,Fasteners 247,fasteners,2,1.64,3,C
+248,Gaskets Seals 248,gaskets_seals,5,6.67,8,C
+249,Fasteners 249,fasteners,1,0.06,10,C
+250,Fittings Flanges 250,fittings_flanges,6,8.28,14,C
+251,Consumables 251,consumables,3,14.91,10,B
+252,Pipe 252,pipe,9,347.72,29,A
+253,Consumables 253,consumables,3,16.29,4,C
+254,Pipe 254,pipe,10,141.6,32,B
+255,Instrumentation 255,instrumentation,13,24.87,38,C
+256,Valves 256,valves,12,419.21,26,B
+257,Consumables 257,consumables,3,4.98,9,C
+258,Consumables 258,consumables,3,66.04,2,A
+259,Fasteners 259,fasteners,1,0.07,13,C
+260,Fasteners 260,fasteners,2,0.15,9,C
+261,Valves 261,valves,12,817.76,4,B
+262,Fasteners 262,fasteners,2,2.06,5,C
+263,Consumables 263,consumables,3,62.7,10,A
+264,Fasteners 264,fasteners,2,2.65,10,C
+265,Consumables 265,consumables,3,24.1,5,B
+266,Instrumentation 266,instrumentation,13,609.5,44,B
+267,Inserts 267,inserts,17,1788.46,17,A
+268,Fasteners 268,fasteners,2,0.34,9,C
+269,Gaskets Seals 269,gaskets_seals,5,2.27,3,C
+270,Consumables 270,consumables,3,69.2,2,A
+271,Consumables 271,consumables,3,5.75,11,C
+272,Valves 272,valves,12,160.24,5,C
+273,Consumables 273,consumables,3,26.37,10,B
+274,Consumables 274,consumables,3,13.08,9,C
+275,Fasteners 275,fasteners,2,0.82,7,C
+276,Consumables 276,consumables,3,18.09,5,C
+277,Fasteners 277,fasteners,2,2.81,6,B
+278,Instrumentation 278,instrumentation,15,8.03,31,C
+279,Pipe 279,pipe,10,725.84,26,A
+280,Consumables 280,consumables,3,5.27,11,C
+281,Consumables 281,consumables,3,11.29,12,B
+282,Fasteners 282,fasteners,1,0.21,10,C
+283,Fasteners 283,fasteners,2,0.68,5,C
+284,Valves 284,valves,12,167.42,23,C
+285,Consumables 285,consumables,3,44.46,12,A
+286,Instrumentation 286,instrumentation,14,8.33,18,C
+287,Pipe 287,pipe,10,217.75,28,A
+288,Inserts 288,inserts,17,972.64,31,A
+289,Fasteners 289,fasteners,1,0.19,8,C
+290,Pipe 290,pipe,11,1183.74,41,A
+291,Fasteners 291,fasteners,2,0.51,11,C
+292,Pipe 292,pipe,11,229.83,40,B
+293,Consumables 293,consumables,3,10.61,8,C
+294,Valves 294,valves,12,1784.87,8,B
+295,Fasteners 295,fasteners,2,0.19,10,C
+296,Consumables 296,consumables,3,27.73,10,B
+297,Pipe 297,pipe,11,342.27,28,B
+298,Inserts 298,inserts,16,1268.14,17,B
+299,Consumables 299,consumables,3,33.52,8,C
+300,Pipe 300,pipe,9,255.39,20,A

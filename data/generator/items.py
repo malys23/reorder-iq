@@ -1,5 +1,6 @@
 #main script: builds the tables and writes the CSV files
 import numpy as np
+
 from config import CATEGORIES, NUM_ITEMS, WEEKS, ABC_CUTOFFS
 from utils import build_counted_list
 from demand import generate_demand 
@@ -68,7 +69,7 @@ def make_item(item_id, category_name, suppliers_by_category, rng):
     attrs = draw_item_attributes(category_name, suppliers_by_category, rng)
     demand = generate_demand(attrs, WEEKS, rng)
 
-    item = {"item_id": item_id, **attrs}
+    item = {"item_id": item_id, "name":f"{category_name.replace("_", " ").title()} {item_id:03d}", **attrs}
     item["annual_units"] = int(demand[-52:].sum())
     return item, demand
 

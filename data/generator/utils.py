@@ -1,3 +1,6 @@
+import csv
+from config import OUTPUT_DIR
+
 #Returns list of items, count of which predetermined with share
 def build_counted_list(target_items, num_items, rng):
     counts = {}
@@ -15,3 +18,11 @@ def build_counted_list(target_items, num_items, rng):
 
     rng.shuffle(names)
     return names
+
+#returns formatte csv file
+def generate_formatted_csv(file_name, rows, column_names):
+    file_path = OUTPUT_DIR / f"{file_name}.csv"
+    with open(file_path, 'w', newline='', encoding="utf-8") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=column_names, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)

@@ -1,5 +1,12 @@
-from config import USER_IDS, CREATED_AT_RULES, AS_OF, STEP_GAPS, DSA_PROBABILITIES, HE_SHARES
+from config import USER_IDS, CREATED_AT_RULES, AS_OF, STEP_GAPS, DSA_PROBABILITIES, HE_SHARES, ON_ORDER_RULES, RECEIVED_DAYS_RANGE
 from datetime import timedelta
+import math
+
+def get_days_range(situation, rules, rng):
+    rule = rules[situation]
+    low, high = rule["days_range"]
+    days = rng.uniform(low, high)
+    return days
 
 def get_step_gaps(step, rng):
     return int(rng.choice(STEP_GAPS[step]["days"], p=STEP_GAPS[step]["probs"]))
@@ -57,7 +64,8 @@ def draw_pr_attributes(item, item_stock, item_supplier, item_reorder_info, rng):
         audit_trail = audit_trail_users | get_audit_trail_dates(item, item_supplier, status, rng)  
 
     elif not item_stock["on_order"] and item_reorder_info["situation"] in ("below_rop", "stockout"):
-        quantity = item_reorder_info["rop"] - item_stock["on_hand"]
+        days = get_days_range(item_reorder_info["situation"], ON_ORDER_RULES, rng)
+        quantity = math.ceil(math.ceil(item_reorder_info["rop"]) - item_stock["on_hand"] + days * item_reorder_info["d"])
         status = str(rng.choice(DSA_PROBABILITIES["step_name"], p=DSA_PROBABILITIES["probs"]))
         if status == "approved":
             audit_trail_users["approved_by"] = USER_IDS["approver"]  
@@ -65,8 +73,9 @@ def draw_pr_attributes(item, item_stock, item_supplier, item_reorder_info, rng):
         else:
             audit_trail = audit_trail_users | get_audit_trail_dates(item, item_supplier, status, rng) 
 
-    elif item_reorder_info["situation"] in ("healthy", "excess"):        
-        quantity = 2 + rng.choice([item_reorder_info["rop"], round(0.75*item_reorder_info["rop"]), round(0.5*item_reorder_info["rop"]), round(0.25* item_reorder_info["rop"])], p = (0.25, 0.25, 0.25, 0.25))
+    elif item_reorder_info["situation"] in ("healthy", "excess"):  
+        days = get_days_range(item_reorder_info["situation"], RECEIVED_DAYS_RANGE, rng)      
+        quantity = max(1, math.ceil(days * item_reorder_info["d"]))
         status = "received"
         audit_trail_users["received_by"] = USER_IDS["receiver"]
         audit_trail_users["approved_by"] = USER_IDS["approver"]
@@ -82,7 +91,6 @@ def draw_pr_attributes(item, item_stock, item_supplier, item_reorder_info, rng):
         "status": status,
         **audit_trail
     }
-
 
 def make_pr(pr_id, item, item_stock, item_supplier, item_reorder_info, rng):
     attrs = draw_pr_attributes(item, item_stock, item_supplier, item_reorder_info, rng)
