@@ -140,7 +140,7 @@ COLUMN_NAMES = {
         "suppliers": ["supplier_id", "name", "category", "lead_time_cv", "on_time_rate"],
         "items": ["item_id", "name", "category", "supplier_id", "unit_cost", "lead_time_days", "abc_class"],
         "stock_levels": ["item_id", "on_hand", "on_order"],
-        "demand_history": ["item_id", "week_start", "quantity"],
+        "demand_history": ["item_id", "week_start", "quantity", "is_holdout"],
         "purchase_requests": ["request_id", "item_id", "quantity", "needed_by", "created_at", "requested_by", "status","submitted_at", "approved_at", "approved_by", "ordered_at", "received_at", "received_by"]
 }
 

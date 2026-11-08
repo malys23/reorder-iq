@@ -1,6 +1,6 @@
 import numpy as np
 from datetime import timedelta
-from config import FIXED_SEED, COMPANY_NAMES, SUPPLIER_INFO, CATEGORIES, COLUMN_NAMES, WEEK_START
+from config import FIXED_SEED, WEEKS, COMPANY_NAMES, SUPPLIER_INFO, CATEGORIES, COLUMN_NAMES, WEEK_START, HOLDOUT_WEEKS
 from suppliers import generate_suppliers
 from items import generate_items
 from stock import generate_stock_levels
@@ -22,7 +22,8 @@ def main():
             row = {
                 "item_id": item_id,
                 "week_start": WEEK_START + timedelta(weeks=week),
-                "quantity": int(quantity)
+                "quantity": int(quantity),
+                "is_holdout": 1 if week >= WEEKS - HOLDOUT_WEEKS else 0
             }
             final_demand.append(row)
 

@@ -3,7 +3,7 @@ from datetime import timedelta
 from utils import _report
 
 #demand_rows: the list of {item_id, week_start, quantity} rows (the output form).
-def check_demand(items, demand_rows, weeks, start_date, show=5):
+def check_demand(items, demand_rows, weeks, start_date, holdout_weeks, show=5):
     failures = defaultdict(list)
     item_ids = {i["item_id"] for i in items}
  
@@ -31,7 +31,21 @@ def check_demand(items, demand_rows, weeks, start_date, show=5):
             failures["history does not start at start_date"].append(item_id)
         if any(b - a != timedelta(weeks=1) for a, b in zip(dates, dates[1:])):
             failures["weeks not consecutive"].append(item_id)
- 
+
+    first_holdout = start_date + timedelta(weeks=weeks - holdout_weeks)
+    for item_id, rows in by_item.items():
+        marked = 0
+        for r in rows:
+            is_late = r["week_start"] >= first_holdout
+            flagged = r["is_holdout"] in (1, True)
+            marked += flagged
+            if flagged and not is_late:
+                failures["holdout flag before the last holdout weeks"].append(item_id)
+            if is_late and not flagged:
+                failures["holdout week not flagged"].append(item_id)
+        if marked != holdout_weeks:
+            failures["item without exactly holdout_weeks flagged rows"].append(item_id)
+
     failures = {k: sorted(set(v)) if k != "row count != items x weeks" else v
                 for k, v in failures.items() if v}
     return _report("Demand checks", f"{len(demand_rows)} rows for {len(by_item)} items", failures, show)
