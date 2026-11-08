@@ -6,7 +6,7 @@ from check_suppliers import check_suppliers
 from check_demand import check_demand
 from check_stock import check_stock
 from check_prs import check_purchase_requests
-from config import AS_OF, NUM_ITEMS, CATEGORIES, WEEK_START, WEEKS
+from config import AS_OF, NUM_ITEMS, CATEGORIES, WEEK_START, WEEKS, HOLDOUT_WEEKS
 
 #Keeping some validation code to later format for possible testing
 
@@ -18,7 +18,7 @@ def validate(items, suppliers, demand_by_item, final_demand, stock, reorder_info
     check_suppliers(suppliers, CATEGORIES, show=5)
 
     #Validation for demand
-    check_demand(items, final_demand, WEEKS, WEEK_START, show=5)
+    check_demand(items, final_demand, WEEKS, WEEK_START, HOLDOUT_WEEKS, show=5)
 
     #Validation for stock
     check_stock(items, stock, reorder_info, show=5)

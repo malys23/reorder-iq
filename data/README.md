@@ -90,7 +90,7 @@ Some items already have an order on the way (`on_order`), more often among the s
 - `needed_by` is the creation date plus the lead time plus a two-day processing allowance. It is a target date, not a deadline set by a customer.
 
 ## Holdout
-
+The last 13 weeks (around a quarter of a year) of every item's demand history are considered holdout that will be used for testing and evaluation of the chosen method in the forecasting segment of this project. Nothing can touch holdout weeks for training, tuning, model selection or parameter choosing. However the reorder point and stock levels are snapshots of the last week and still use all history. The holdout applies to forecasting models only, not the reorder calculations.
 
 ## Checks
 
