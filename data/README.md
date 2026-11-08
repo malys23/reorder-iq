@@ -89,6 +89,9 @@ Some items already have an order on the way (`on_order`), more often among the s
 - Dates are built backwards from a fixed "as of" date. For received requests, the delivery time varies around the supplier's lead time, using the supplier's on-time rate.
 - `needed_by` is the creation date plus the lead time plus a two-day processing allowance. It is a target date, not a deadline set by a customer.
 
+## Holdout
+
+
 ## Checks
 
 `validate.py` and the check files verify the generated data before any file is written. Examples: every item with an open order has a matching *ordered* request with the same quantity, stock levels match their situation (stockouts at zero, below-ROP items under the reorder point), dates are in order and none is in the future, and quantities are positive whole numbers. 

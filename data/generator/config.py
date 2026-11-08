@@ -143,3 +143,5 @@ COLUMN_NAMES = {
         "demand_history": ["item_id", "week_start", "quantity"],
         "purchase_requests": ["request_id", "item_id", "quantity", "needed_by", "created_at", "requested_by", "status","submitted_at", "approved_at", "approved_by", "ordered_at", "received_at", "received_by"]
 }
+
+HOLDOUT_WEEKS = 13
