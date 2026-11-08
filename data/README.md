@@ -12,15 +12,14 @@ This folder holds the generator that creates the dataset for ReorderIQ, and the 
 | `demand_history.csv` | item per week | 31,200 (300 items × 104 weeks) |
 | `purchase_requests.csv` | purchase request | 142 |
 
-Columns *(check against `COLUMN_NAMES` in `generator/config.py` and edit this table to match)*:
-
+Columns:
 - **suppliers:** `supplier_id`, `name`, `category`, `lead_time_cv`, `on_time_rate`
 - **items:** `item_id`, `name`, `category`, `supplier_id`, `unit_cost`, `lead_time_days`, `abc_class`
 - **stock_levels:** `item_id`, `on_hand`, `on_order`
-- **demand_history:** `item_id`, `week_start`, `quantity`
+- **demand_history:** `item_id`, `week_start`, `quantity`, `is_holdout`
 - **purchase_requests:** `request_id`, `item_id`, `quantity`, `needed_by`, `created_at`, `requested_by`, `status`, `submitted_at`, `approved_at`, `approved_by`, `ordered_at`, `received_at`, `received_by`
 
-Dates are written as `YYYY-MM-DD`. A date that has not happened yet, such as `received_at` on an open request, is an empty cell.
+Dates are written as `YYYY-MM-DD`. A date that has not happened yet, such as `received_at` on an open request, is an empty cell. For demand history, `week_start` is always a Monday and `is_holdout` is marked 1 for items to include in the holdout and 0 for the rest.
 
 ## How to run it
 
@@ -32,7 +31,7 @@ python -m uv run generate.py
 
 The script generates the data, runs the checks (below), and writes the CSV files to `data/output/`. All settings (item count, seed, category parameters, stock and request rules) are in `generator/config.py`.
 
-The random seed is fixed, so repeated runs should produce identical files. 
+The random seed is fixed, so repeated runs produce identical files. 
 
 ## How the data is built
 
@@ -49,7 +48,9 @@ The random seed is fixed, so repeated runs should produce identical files.
 | Instrumentation | 10% | intermittent |
 | Inserts | 10% | lumpy |
 
-**Demand.** Each item has 104 weeks of history. The patterns are simple parametric models:
+**Inserts refer to piping inserts used in industrial oil pipe production.
+
+**Demand.** Each item has 104 weeks of history from Monday 11/04/2024 to the week starting Monday 11/02/2026. The patterns are simple parametric models:
 - **Smooth:** a base level with about 10% random variation.
 - **Seasonal:** the smooth pattern multiplied by a yearly cosine wave. Each category peaks in a different week, with a small shift per item.
 - **Intermittent:** most weeks are zero. In the weeks that have demand, the quantity is small and fairly consistent.
@@ -69,7 +70,7 @@ ROP = d × L + z × σ<sub>d</sub> × √L
 
 where *d* is average daily demand over the last 26 weeks, *σ<sub>d</sub>* is the daily standard deviation, *L* is the lead time in days, and *z* depends on the ABC class (A: 2.05, B: 1.645, C: 1.28). **The backend is the reference implementation.** The generator's copy only needs to be close enough to create the situations below.
 
-**Stock levels.** Each item is assigned a starting situation:
+**Stock levels.** Each item is assigned a starting situation as of 11/02/2026:
 
 | Situation | Share | On hand |
 | --- | --- | --- |
@@ -90,11 +91,11 @@ Some items already have an order on the way (`on_order`), more often among the s
 - `needed_by` is the creation date plus the lead time plus a two-day processing allowance. It is a target date, not a deadline set by a customer.
 
 ## Holdout
-The last 13 weeks (around a quarter of a year) of every item's demand history are considered holdout that will be used for testing and evaluation of the chosen method in the forecasting segment of this project. Nothing can touch holdout weeks for training, tuning, model selection or parameter choosing. However the reorder point and stock levels are snapshots of the last week and still use all history. The holdout applies to forecasting models only, not the reorder calculations.
+The holdout starts 8/3/2026 on and covers the last 13 weeks (weeks 92 to 104) of every item's demand history. Items flagged for holdout will be used for testing and evaluation of the chosen method in the forecasting segment of this project. They must not be used for training, tuning, model selection or parameter choosing. However the reorder point and stock levels are snapshots of the last week and still use all history. The holdout applies to forecasting models only, not the reorder calculations. The ABC class, trend-related attributes, and reorder point are all calculated from the entire history so forecasting models shouldn't use them as input features.
 
 ## Checks
 
-`validate.py` and the check files verify the generated data before any file is written. Examples: every item with an open order has a matching *ordered* request with the same quantity, stock levels match their situation (stockouts at zero, below-ROP items under the reorder point), dates are in order and none is in the future, and quantities are positive whole numbers. 
+`validate.py` and the check files verify the generated data before any file is written. Examples: every item with an open order has a matching *ordered* request with the same quantity, stock levels match their situation (stockouts at zero, below-ROP items under the reorder point), dates are in order and none is in the future, and quantities are positive whole numbers, the demand history is complete and in weekly order, the start date is a Monday, exactly 13 weeks per item are flagged as holdout, and the catalog checks on items and suppliers (valid supplier and class, positive costs and lead times).
 
 ## Limitations
 
