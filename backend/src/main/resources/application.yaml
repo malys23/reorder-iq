@@ -4,5 +4,6 @@ spring:
     username: ${DB_USER:reorderiq}
     password: ${DB_PASSWORD:reorderiq}
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: validate
