@@ -51,7 +51,7 @@ CREATE TABLE purchase_requests(
     approved_at         DATE,
     approved_by         INT REFERENCES users(user_id),
     ordered_at          DATE,
-    received_at         Date,
+    received_at         DATE,
     received_by         INT REFERENCES users(user_id)
 );
 

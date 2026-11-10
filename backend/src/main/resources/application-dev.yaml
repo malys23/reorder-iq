@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reorderiq
+    username: ${DB_USER:reorderiq}
+    password: ${DB_PASSWORD:reorderiq}
+reorderiq:
+  seed:
+    data-dir: ../data/output
+    users:
+      - id: 1
+        username: demo-planner
+        password: demo-planner-pw
+        role: planner
+      - id: 2
+        username: demo-approver
+        password: demo-approver-pw
+        role: approver
+      - id: 3
+        username: demo-receiver
+        password: demo-receiver-pw
+        role: receiver
