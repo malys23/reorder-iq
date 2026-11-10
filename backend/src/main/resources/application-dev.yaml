@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reorderiq
+    username: ${DB_USER:reorderiq}
+    password: ${DB_PASSWORD:reorderiq}
+reorderiq:
+  seed:
+    data-dir: ../data/output
