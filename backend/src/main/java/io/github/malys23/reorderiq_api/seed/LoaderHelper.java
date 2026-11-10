@@ -24,7 +24,7 @@ public class LoaderHelper{
         }
     }
 
-    private static String cellContent(CSVRecord record, String columnName){
+    static String cellContent(CSVRecord record, String columnName){
         return record.get(columnName).trim();
     }
 
