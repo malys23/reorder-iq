@@ -5,3 +5,10 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+reorderiq:
+  reorder:
+    window-weeks: 26
+    z-values:
+      A: 2.05
+      B: 1.645
+      C: 1.28
