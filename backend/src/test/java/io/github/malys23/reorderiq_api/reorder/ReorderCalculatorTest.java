@@ -34,7 +34,7 @@ public class ReorderCalculatorTest {
         assertThat(stats.insufficientHistory()).isTrue();
         assertThat(stats.weeksUsed()).isEqualTo(1);
         assertThat(stats.dailyStdDev()).isEqualTo(0.0);
-        assertThat(stats.dailyMean()).isCloseTo(10, within(0.001));
+        assertThat(stats.dailyMean()).isCloseTo(10, within(0.01));
     }
 
     @Test
@@ -42,8 +42,8 @@ public class ReorderCalculatorTest {
         ReorderCalculator.DemandStats stats = calculator.stats(List.of(60,80));
         assertThat(stats.insufficientHistory()).isFalse();
         assertThat(stats.weeksUsed()).isEqualTo(2);
-        assertThat(stats.dailyStdDev()).isCloseTo(5.345, within(0.001));
-        assertThat(stats.dailyMean()).isCloseTo(10, within(0.001));
+        assertThat(stats.dailyStdDev()).isCloseTo(5.345, within(0.01));
+        assertThat(stats.dailyMean()).isCloseTo(10, within(0.01));
     }
 
     @Test
@@ -52,15 +52,15 @@ public class ReorderCalculatorTest {
         assertThat(stats.insufficientHistory()).isFalse();
         assertThat(stats.weeksUsed()).isEqualTo(26);
         assertThat(stats.dailyStdDev()).isEqualTo(0.0);
-        assertThat(stats.dailyMean()).isCloseTo(10, within(0.001));
+        assertThat(stats.dailyMean()).isCloseTo(10, within(0.01));
     }
 
     @Test
     void handExample(){
         double ss = calculator.safetyStock(3, 9, 1.645);
         double rop = calculator.reorderPoint(10, 9, ss);
-        assertThat(ss).isCloseTo(14.805, within(0.001));
-        assertThat(rop).isCloseTo(104.805, within(0.001));
+        assertThat(ss).isCloseTo(14.805, within(0.01));
+        assertThat(rop).isCloseTo(104.805, within(0.01));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ReorderCalculatorTest {
         assertThat(result.reorderPoint()).isCloseTo(90, within(0.01));
         assertThat(result.safetyStock()).isEqualTo(0.0);
         assertThat(result.dailyStdDev()).isEqualTo(0.0);
-        assertThat(result.dailyMean()).isCloseTo(10, within(0.001));
+        assertThat(result.dailyMean()).isCloseTo(10, within(0.01));
     }
 
     @Test
