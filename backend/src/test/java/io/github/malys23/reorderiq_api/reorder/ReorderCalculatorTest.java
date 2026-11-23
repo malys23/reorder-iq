@@ -7,8 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.Assertions.*;
 
 public class ReorderCalculatorTest {
 
@@ -57,7 +56,7 @@ public class ReorderCalculatorTest {
     }
 
     @Test
-    void workedExample(){
+    void handExample(){
         double ss = calculator.safetyStock(3, 9, 1.645);
         double rop = calculator.reorderPoint(10, 9, ss);
         assertThat(ss).isCloseTo(14.805, within(0.001));
@@ -70,5 +69,50 @@ public class ReorderCalculatorTest {
         double rop = calculator.reorderPoint(10, 9, ss);
         assertThat(ss).isEqualTo(0.0);
         assertThat(rop).isEqualTo(90.0);
+    }
+
+    @Test
+    void calculateZeroVariation(){
+        ReorderResult result = calculator.calculate(Collections.nCopies(26, 70), 9, "A");
+        assertThat(result.reorderPoint()).isCloseTo(90, within(0.01));
+        assertThat(result.safetyStock()).isEqualTo(0.0);
+        assertThat(result.dailyStdDev()).isEqualTo(0.0);
+        assertThat(result.dailyMean()).isCloseTo(10, within(0.001));
+    }
+
+    @Test
+    void calculateWithRealListClassA(){
+        ReorderResult result = calculator.calculate(List.of(60,80), 9, "A");
+        assertThat(result.reorderPoint()).isCloseTo(122.87, within(0.01));
+        assertThat(result.safetyStock()).isCloseTo(32.87, within(0.01));
+        assertThat(result.z()).isEqualTo(2.05);
+        assertThat(result.weeksUsed()).isEqualTo(2);
+        assertThat(result.insufficientHistory()).isFalse();
+    }
+
+    @Test
+    void calculateWithRealListClassB(){
+        ReorderResult result = calculator.calculate(List.of(60,80), 9, "B");
+        assertThat(result.reorderPoint()).isCloseTo(116.38, within(0.01));
+        assertThat(result.safetyStock()).isCloseTo(26.38, within(0.01));
+        assertThat(result.z()).isEqualTo(1.645);
+        assertThat(result.weeksUsed()).isEqualTo(2);
+        assertThat(result.insufficientHistory()).isFalse();
+    }
+    @Test
+    void calculateWithRealListClassC(){
+        ReorderResult result = calculator.calculate(List.of(60,80), 9, "C");
+        assertThat(result.reorderPoint()).isCloseTo(110.53, within(0.01));
+        assertThat(result.safetyStock()).isCloseTo(20.53, within(0.01));
+        assertThat(result.z()).isEqualTo(1.28);
+        assertThat(result.weeksUsed()).isEqualTo(2);
+        assertThat(result.insufficientHistory()).isFalse();
+    }
+
+    @Test
+    void calculateErrors(){
+        assertThatThrownBy(()->calculator.calculate(List.of(60,80), 9, "D"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("D");
     }
 }

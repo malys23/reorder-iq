@@ -12,8 +12,7 @@ public class ReorderCalculator {
         this.reorderProperties = reorderProperties;
     }
 
-    // Assumption: daily demand is independent from day to day, so variances add up and
-    // the weekly variance is 7 times the daily one. Hence σ_daily = σ_weekly / √7.
+
     public record DemandStats(double dailyMean, double dailyStdDev, int weeksUsed, boolean insufficientHistory) {}
     DemandStats stats(List<Integer> weeklyQuantities){
         if(weeklyQuantities.isEmpty()){
@@ -26,6 +25,8 @@ public class ReorderCalculator {
             sumMean += quantity;
         }
         double weeklyMean = sumMean/(double)weeklyQuantities.size();
+        // Assumption: daily demand is independent from day to day, so variances add up and
+        // the weekly variance is 7 times the daily one. Hence σ_daily = σ_weekly / √7.
         double dailyMean = weeklyMean / 7;
 
         if(weeklyQuantities.size() == 1){
@@ -37,10 +38,10 @@ public class ReorderCalculator {
         for(Integer quantity: weeklyQuantities){
             sumStdDev += Math.pow(quantity - weeklyMean, 2);
         }
-        double stdDevWeekly = Math.sqrt(sumStdDev/(weeklyQuantities.size() - 1));
-        double stdDev = stdDevWeekly / Math.sqrt(7);
+        double weeklyStdDev = Math.sqrt(sumStdDev/(weeklyQuantities.size() - 1));
+        double dailyStdDev = weeklyStdDev / Math.sqrt(7);
 
-        return new DemandStats(dailyMean, stdDev, weeklyQuantities.size(), false);
+        return new DemandStats(dailyMean, dailyStdDev, weeklyQuantities.size(), false);
     }
 
     double safetyStock(double sigmaD, int leadTimeDays, double z){
@@ -49,5 +50,18 @@ public class ReorderCalculator {
 
     double reorderPoint(double d, int leadTimeDays, double safetyStock){
         return d * leadTimeDays + safetyStock;
+    }
+
+    public ReorderResult calculate(List<Integer> weeklyQuantities, int leadTimeDays, String abcClass){
+        DemandStats result = stats(weeklyQuantities);
+
+        Double z = reorderProperties.zValues().get(abcClass);
+        if(z== null) throw new IllegalArgumentException("Unknown ABC class: " + abcClass + ". Valid classes: "
+                + reorderProperties.zValues().keySet());
+
+        double safetyStock = safetyStock(result.dailyStdDev, leadTimeDays, z);
+        double reorderPoint = reorderPoint(result.dailyMean, leadTimeDays, safetyStock);
+        return new ReorderResult(result.dailyMean(), result.dailyStdDev(), z, leadTimeDays, safetyStock, reorderPoint,
+                result.weeksUsed(), result.insufficientHistory());
     }
 }
