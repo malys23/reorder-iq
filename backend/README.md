@@ -13,7 +13,7 @@ Phase 2 (backend) is in progress.
 | Database schema (Flyway) | Done |
 | JPA entities and repositories, with Testcontainers tests | Done |
 | Development seed loader | Done |
-| Reorder calculation service | Planned |
+| Reorder calculation service | Done |
 | Items and dashboard endpoints | Planned |
 | Login with JWT and role rules | Planned |
 | Purchase request workflow | Planned |
@@ -89,16 +89,24 @@ The user ids (1, 2, 3) match the ids used in the generated purchase request data
 mvn test
 ```
  
-The repository tests start a PostgreSQL container with Testcontainers, apply the real Flyway migration to it, and check that items, suppliers, stock levels and demand history can be saved and read back, including the "last N weeks of demand" query. **Docker must be running.**
+There are three groups of tests:
+
+- **Repository tests** start a PostgreSQL container with Testcontainers, apply the real Flyway migration to it, and check that items, suppliers, stock levels and demand history can be saved and read back, including the "last N weeks of demand" query.
+- **Reorder calculator tests** are plain unit tests with no database. They check the statistics (mean and standard deviation), the hand-calculated example (safety stock about 14.8 and reorder point about 104.8), the z value for each ABC class, and the edge cases: no history, one week, zero variation and an unknown ABC class.
+- **Reorder service tests** use the same Testcontainers setup and the real configuration. They check that stored demand gives the expected reorder point, that only the latest 26 weeks are used, and that an unknown item is rejected.
+
+**Docker must be running.**
  
 ## Project layout
  
 ```
 src/main/java/io/github/malys23/reorderiq_api/
+├── config/       Spring configuration
 ├── domain/       JPA entities (one per table)
-├── repository/   Spring Data repositories
-├── seed/         Development-only seed loader
-└── config/       Spring configuration
+├── exception/    Exceptions
+├── reorder/      Calculator and reorder mechanism
+├── repository/   Spring Data repositories        
+└── seed/         Development-only seed loader
 src/main/resources/
 ├── db/migration/ Flyway migrations
 └── application*.yaml
