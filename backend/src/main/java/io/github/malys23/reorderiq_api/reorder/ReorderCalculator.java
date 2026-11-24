@@ -53,6 +53,19 @@ public class ReorderCalculator {
         return d * leadTimeDays + safetyStock;
     }
 
+    public ReorderResult calculate(List<Integer> weeklyQuantities, int leadTimeDays, String abcClass){
+        DemandStats result = stats(weeklyQuantities);
+
+        Double z = reorderProperties.zValues().get(abcClass);
+        if(z== null) throw new IllegalArgumentException("Unknown ABC class: " + abcClass + ". Valid classes: "
+                + reorderProperties.zValues().keySet());
+
+        double safetyStock = safetyStock(result.dailyStdDev, leadTimeDays, z);
+        double reorderPoint = reorderPoint(result.dailyMean, leadTimeDays, safetyStock);
+        return new ReorderResult(result.dailyMean(), result.dailyStdDev(), z, leadTimeDays, safetyStock, reorderPoint,
+                result.weeksUsed(), result.insufficientHistory());
+    }
+
     //get min order quantity
     int minOrderQuantity(BigDecimal unitCost){
         for (ReorderProperties.MinOrderTier tier: reorderProperties.minOrderTiers()){
@@ -68,20 +81,7 @@ public class ReorderCalculator {
         int position = onHand + onOrder;
         if(position >= reorderPoint){ return 0; }
         double orderUpTo = reorderPoint + dailyMean * 7 * reorderProperties.orderCoverWeeks();
-        int raw = (int)Math.ceil(orderUpTo - position - 1e-9);  //subtracting 1e-9 just in case there is a hidden decimal
+        int raw = (int)Math.ceil(orderUpTo - position - 1e-9);  //weekly mean / 7, multiplied back, can land just above whole number, and ceil would add a unit
         return Math.max(raw, minOrderQuantity);
-    }
-
-    public ReorderResult calculate(List<Integer> weeklyQuantities, int leadTimeDays, String abcClass){
-        DemandStats result = stats(weeklyQuantities);
-
-        Double z = reorderProperties.zValues().get(abcClass);
-        if(z== null) throw new IllegalArgumentException("Unknown ABC class: " + abcClass + ". Valid classes: "
-                + reorderProperties.zValues().keySet());
-
-        double safetyStock = safetyStock(result.dailyStdDev, leadTimeDays, z);
-        double reorderPoint = reorderPoint(result.dailyMean, leadTimeDays, safetyStock);
-        return new ReorderResult(result.dailyMean(), result.dailyStdDev(), z, leadTimeDays, safetyStock, reorderPoint,
-                result.weeksUsed(), result.insufficientHistory());
     }
 }
