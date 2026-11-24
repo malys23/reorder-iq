@@ -1,7 +1,9 @@
 package io.github.malys23.reorderiq_api.reorder;
 
+import io.github.malys23.reorderiq_api.domain.DemandHistory;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -11,7 +13,6 @@ public class ReorderCalculator {
     public ReorderCalculator(ReorderProperties reorderProperties){
         this.reorderProperties = reorderProperties;
     }
-
 
     public record DemandStats(double dailyMean, double dailyStdDev, int weeksUsed, boolean insufficientHistory) {}
     DemandStats stats(List<Integer> weeklyQuantities){
@@ -50,6 +51,25 @@ public class ReorderCalculator {
 
     double reorderPoint(double d, int leadTimeDays, double safetyStock){
         return d * leadTimeDays + safetyStock;
+    }
+
+    //get min order quantity
+    int minOrderQuantity(BigDecimal unitCost){
+        for (ReorderProperties.MinOrderTier tier: reorderProperties.minOrderTiers()){
+            if(unitCost.compareTo(tier.belowUnitCost())< 0){
+                return tier.quantity();
+            }
+        }
+        return reorderProperties.defaultMinOrderQuantity();
+    }
+
+    //calculate suggested value
+    int suggestedQuantity(double reorderPoint, double dailyMean, int onHand, int onOrder, int minOrderQuantity){
+        int position = onHand + onOrder;
+        if(position >= reorderPoint){ return 0; }
+        double orderUpTo = reorderPoint + dailyMean * 7 * reorderProperties.orderCoverWeeks();
+        int raw = (int)Math.ceil(orderUpTo - position - 1e-9);  //subtracting 1e-9 just in case there is a hidden decimal
+        return Math.max(raw, minOrderQuantity);
     }
 
     public ReorderResult calculate(List<Integer> weeklyQuantities, int leadTimeDays, String abcClass){
