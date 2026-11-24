@@ -1,7 +1,9 @@
 package io.github.malys23.reorderiq_api.reorder;
 
+import io.github.malys23.reorderiq_api.domain.DemandHistory;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
@@ -11,7 +13,6 @@ public class ReorderCalculator {
     public ReorderCalculator(ReorderProperties reorderProperties){
         this.reorderProperties = reorderProperties;
     }
-
 
     public record DemandStats(double dailyMean, double dailyStdDev, int weeksUsed, boolean insufficientHistory) {}
     DemandStats stats(List<Integer> weeklyQuantities){
@@ -63,5 +64,24 @@ public class ReorderCalculator {
         double reorderPoint = reorderPoint(result.dailyMean, leadTimeDays, safetyStock);
         return new ReorderResult(result.dailyMean(), result.dailyStdDev(), z, leadTimeDays, safetyStock, reorderPoint,
                 result.weeksUsed(), result.insufficientHistory());
+    }
+
+    //get min order quantity
+    int minOrderQuantity(BigDecimal unitCost){
+        for (ReorderProperties.MinOrderTier tier: reorderProperties.minOrderTiers()){
+            if(unitCost.compareTo(tier.belowUnitCost())< 0){
+                return tier.quantity();
+            }
+        }
+        return reorderProperties.defaultMinOrderQuantity();
+    }
+
+    //calculate suggested value
+    int suggestedQuantity(double reorderPoint, double dailyMean, int onHand, int onOrder, int minOrderQuantity){
+        int position = onHand + onOrder;
+        if(position >= reorderPoint){ return 0; }
+        double orderUpTo = reorderPoint + dailyMean * 7 * reorderProperties.orderCoverWeeks();
+        int raw = (int)Math.ceil(orderUpTo - position - 1e-9);  //weekly mean / 7, multiplied back, can land just above whole number, and ceil would add a unit
+        return Math.max(raw, minOrderQuantity);
     }
 }

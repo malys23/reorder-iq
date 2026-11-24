@@ -1,7 +1,7 @@
-# 3. Reorder point definition
+# 4. Reorder point definition
 
 Date: 2026-11-04
-Updated: 2026-11-23
+Updated: 2026-11-24
 Status: Accepted
 
 ## Context
@@ -17,9 +17,9 @@ The reorder point is calculated for both the data generator and in the Spring Bo
 - **Excess:** inventory position above ROP plus 90 days of demand (90 × d).
 - **Edge Cases:** no history gives zeros and insufficientHistory flag, one week gives a standard deviation of 0, and an unknown ABC class is rejected.
 - **Reference:** the backend is always the point of reference
-- **Rounding:** results are not rounded in the calculation - rounding for display purposes will happen later to prevent disagreement by unit.
+- **Rounding:** results are not rounded in the calculation except the suggested order quantity, see ADR 5 - rounding for display purposes will happen later to prevent disagreement by unit.
 
 ## Consequences
 - The data is consistent with the application and the backend test can compare against the generator's numbers
 - There are two implementations to keep in step, and parameters that must be changed in both
-- σ_daily is an estimate built from weekly data as if demand is correlated from day to day data, the safety stock will be too low
+- σ_daily is a daily estimate built from weekly data under the assumption that daily demand is independent - if real daily demand is correlated from day to day, the safety stock will be too low

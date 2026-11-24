@@ -13,7 +13,7 @@ Phase 2 (backend) is in progress.
 | Database schema (Flyway) | Done |
 | JPA entities and repositories, with Testcontainers tests | Done |
 | Development seed loader | Done |
-| Reorder calculation service | Done |
+| Reorder calculation and suggested order quantity | Done |
 | Items and dashboard endpoints | Planned |
 | Login with JWT and role rules | Planned |
 | Purchase request workflow | Planned |
@@ -28,7 +28,7 @@ Until the login work is done, the default Spring Security setup is active and ge
 - Flyway for schema migrations
 - Spring Data JPA (Hibernate) with `ddl-auto: validate`
 - Apache Commons CSV and `JdbcTemplate` for the development seed loader
-- JUnit 5 and Testcontainers for repository tests
+- JUnit 5 and Testcontainers for repository and service tests
 
 ## Running it locally
  
@@ -92,8 +92,9 @@ mvn test
 There are three groups of tests:
 
 - **Repository tests** start a PostgreSQL container with Testcontainers, apply the real Flyway migration to it, and check that items, suppliers, stock levels and demand history can be saved and read back, including the "last N weeks of demand" query.
-- **Reorder calculator tests** are plain unit tests with no database. They check the statistics (mean and standard deviation), the hand-calculated example (safety stock about 14.8 and reorder point about 104.8), the z value for each ABC class, and the edge cases: no history, one week, zero variation and an unknown ABC class.
-- **Reorder service tests** use the same Testcontainers setup and the real configuration. They check that stored demand gives the expected reorder point, that only the latest 26 weeks are used, and that an unknown item is rejected.
+- **Reorder calculator tests** are plain unit tests with no database. They check the statistics (mean and standard deviation), the hand-calculated example (safety stock about 14.8 and reorder point about 104.8), the z value for each ABC class, the edge cases: no history, one week, zero variation and an unknown ABC class, the minimum order quantity tier boundaries, and suggested quantity branches
+- **Reorder service tests** use the same Testcontainers setup and the real configuration. They check that stored demand gives the expected reorder point, that only the latest 26 weeks are used, that an unknown item is rejected, the suggested quantity using the item's stock and unit cost, and that a missing stock row is rejected
+
 
 **Docker must be running.**
  
@@ -104,7 +105,7 @@ src/main/java/io/github/malys23/reorderiq_api/
 ├── config/       Spring configuration
 ├── domain/       JPA entities (one per table)
 ├── exception/    Exceptions
-├── reorder/      Calculator and reorder mechanism
+├── reorder/      Reorder point and quantity calculations
 ├── repository/   Spring Data repositories        
 └── seed/         Development-only seed loader
 src/main/resources/
