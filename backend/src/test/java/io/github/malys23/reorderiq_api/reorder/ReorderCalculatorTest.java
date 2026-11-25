@@ -182,4 +182,53 @@ public class ReorderCalculatorTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("D");
     }
+
+    //Testing classification
+    @Test
+    void classifyStockOutStatus(){
+        StockStatus result = calculator.classify(0, 20, 50.0, 10.0);
+        assertThat(result).isEqualTo(StockStatus.STOCKOUT);
+    }
+
+    @Test
+    void classifyBelowROPStatus(){
+        StockStatus result = calculator.classify(20, 20, 50.0, 10.0);
+        assertThat(result).isEqualTo(StockStatus.BELOW_REORDER_POINT);
+    }
+
+    @Test
+    void classifyExcessStatus(){
+        StockStatus result = calculator.classify(900, 100, 50.0, 10.0);
+        assertThat(result).isEqualTo(StockStatus.EXCESS);
+    }
+
+    @Test
+    void classifyOkStatus(){
+        StockStatus result = calculator.classify(45, 10, 50.0, 10.0);
+        assertThat(result).isEqualTo(StockStatus.OK);
+    }
+
+    @Test
+    void classifyExactlyAtROPStatus(){
+        StockStatus result = calculator.classify(40, 10, 50.0, 10.0);
+        assertThat(result).isEqualTo(StockStatus.OK);
+    }
+
+    @Test
+    void classifyExactlyAtExcessStatus(){
+        StockStatus result = calculator.classify(900, 50, 50.0, 10.0);
+        assertThat(result).isEqualTo(StockStatus.OK);
+    }
+
+    @Test
+    void classifyConsidersOnOrder(){
+        StockStatus result = calculator.classify(10, 100, 50, 10);
+        assertThat(result).isEqualTo(StockStatus.OK);
+    }
+
+    @Test
+    void classifyNoHistoryCaseAsExcess(){
+        StockStatus result = calculator.classify(5, 0, 0, 0);
+        assertThat(result).isEqualTo(StockStatus.EXCESS);
+    }
 }

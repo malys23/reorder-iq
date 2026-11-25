@@ -9,6 +9,7 @@ import java.util.List;
 @Component
 public class ReorderCalculator {
     private final ReorderProperties reorderProperties;
+    private final int EXCESS_DAYS = 90; //see ADR 4
 
     public ReorderCalculator(ReorderProperties reorderProperties){
         this.reorderProperties = reorderProperties;
@@ -83,5 +84,18 @@ public class ReorderCalculator {
         double orderUpTo = reorderPoint + dailyMean * 7 * reorderProperties.orderCoverWeeks();
         int raw = (int)Math.ceil(orderUpTo - position - 1e-9);  //weekly mean / 7, multiplied back, can land just above whole number, and ceil would add a unit
         return Math.max(raw, minOrderQuantity);
+    }
+
+    //classify (status)
+    public StockStatus classify(int onHand, int onOrder, double reorderPoint, double dailyMean){
+        if(onHand == 0){
+            return StockStatus.STOCKOUT;
+        } else if ((onHand + onOrder)<reorderPoint) {
+            return StockStatus.BELOW_REORDER_POINT;
+        } else if ((onHand + onOrder)> reorderPoint+EXCESS_DAYS*dailyMean) {
+            return StockStatus.EXCESS;
+        } else {
+            return StockStatus.OK;
+        }
     }
 }
