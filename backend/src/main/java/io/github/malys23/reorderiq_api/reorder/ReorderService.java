@@ -1,13 +1,16 @@
 package io.github.malys23.reorderiq_api.reorder;
 
+import io.github.malys23.reorderiq_api.domain.StockLevel;
 import io.github.malys23.reorderiq_api.exception.ItemNotFoundException;
 import io.github.malys23.reorderiq_api.domain.DemandHistory;
 import io.github.malys23.reorderiq_api.domain.Item;
 import io.github.malys23.reorderiq_api.repository.DemandHistoryRepository;
 import io.github.malys23.reorderiq_api.repository.ItemRepository;
+import io.github.malys23.reorderiq_api.repository.StockLevelRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +18,16 @@ import java.util.List;
 public class ReorderService {
     private final ItemRepository itemRepository;
     private final DemandHistoryRepository demandHistoryRepository;
+    private final StockLevelRepository stockLevelRepository;
     private final ReorderCalculator reorderCalculator;
     private final ReorderProperties reorderProperties;
 
     public ReorderService(ItemRepository itemRepository, DemandHistoryRepository demandHistoryRepository,
-                          ReorderCalculator reorderCalculator, ReorderProperties reorderProperties){
+                          StockLevelRepository stockLevelRepository, ReorderCalculator reorderCalculator,
+                          ReorderProperties reorderProperties){
         this.itemRepository = itemRepository;
         this.demandHistoryRepository = demandHistoryRepository;
+        this.stockLevelRepository = stockLevelRepository;
         this.reorderCalculator = reorderCalculator;
         this.reorderProperties = reorderProperties;
     }
@@ -38,6 +44,15 @@ public class ReorderService {
         }
 
         return reorderCalculator.calculate(quantities, item.getLeadTimeDays(), item.getAbcClass());
+    }
+
+    public int suggestedQuantityForItem(Integer itemId){
+        ReorderResult result = calculateForItem(itemId);
+        StockLevel stock = stockLevelRepository.findById(itemId).orElseThrow(() -> new IllegalStateException("No stock level for item " + itemId));
+        Item item = itemRepository.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
+        int minOrderQuantity = reorderCalculator.minOrderQuantity(item.getUnitCost());
+
+        return reorderCalculator.suggestedQuantity(result.reorderPoint(), result.dailyMean(), stock.getOnHand(), stock.getOnOrder(), minOrderQuantity);
     }
 
 }

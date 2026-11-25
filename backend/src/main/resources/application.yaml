@@ -1,6 +1,6 @@
 spring:
   profiles:
-      default: dev
+    default: dev
   jpa:
     open-in-view: false
     hibernate:
@@ -12,3 +12,10 @@ reorderiq:
       A: 2.05
       B: 1.645
       C: 1.28
+    order-cover-weeks: 3
+    min-order-tiers:
+      - below-unit-cost: 10
+        quantity: 100
+      - below-unit-cost: 100
+        quantity: 50
+    default-min-order-quantity: 1

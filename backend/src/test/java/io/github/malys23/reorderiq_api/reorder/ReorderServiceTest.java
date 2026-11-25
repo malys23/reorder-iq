@@ -1,11 +1,13 @@
 package io.github.malys23.reorderiq_api.reorder;
 
 import io.github.malys23.reorderiq_api.domain.DemandHistory;
+import io.github.malys23.reorderiq_api.domain.StockLevel;
 import io.github.malys23.reorderiq_api.domain.Supplier;
 import io.github.malys23.reorderiq_api.domain.Item;
 import io.github.malys23.reorderiq_api.exception.ItemNotFoundException;
 import io.github.malys23.reorderiq_api.repository.DemandHistoryRepository;
 import io.github.malys23.reorderiq_api.repository.ItemRepository;
+import io.github.malys23.reorderiq_api.repository.StockLevelRepository;
 import io.github.malys23.reorderiq_api.repository.SupplierRepository;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,10 +37,12 @@ public class ReorderServiceTest {
     @ServiceConnection
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:17");
 
+    @Autowired ReorderProperties reorderProperties;
     @Autowired ReorderService reorderService;
     @Autowired SupplierRepository supplierRepository;
     @Autowired ItemRepository itemRepository;
     @Autowired DemandHistoryRepository demandHistoryRepository;
+    @Autowired StockLevelRepository stockLevelRepository;
 
     private static final LocalDate START = LocalDate.of(2024, 11, 4);
     private Supplier supplier;
@@ -98,5 +102,51 @@ public class ReorderServiceTest {
     void unknownItemThrowsError(){
         assertThatThrownBy(() ->
                 reorderService.calculateForItem(999999)).isInstanceOf(ItemNotFoundException.class);
+    }
+
+    //Tests for suggested quantity service
+    @Test
+    void expectedLargeResultForSuggestedQuantity(){
+        demandHistoryRepository.save(new DemandHistory(
+                item.getItemId(), LocalDate.parse("2024-11-04"), 60, false));
+        demandHistoryRepository.save(new DemandHistory(
+                item.getItemId(), LocalDate.parse("2024-11-11"), 80, false));
+        demandHistoryRepository.flush();
+
+        stockLevelRepository.save(new StockLevel(
+                item.getItemId(), 50, 40));
+        stockLevelRepository.flush();
+
+        int result = reorderService.suggestedQuantityForItem(item.getItemId());
+        assertThat(result).isEqualTo(243);
+    }
+
+    @Test
+    void expectedSmallerResultForSuggestedQuantity(){
+        demandHistoryRepository.save(new DemandHistory(
+                item.getItemId(), LocalDate.parse("2024-11-04"), 7, false));
+        demandHistoryRepository.save(new DemandHistory(
+                item.getItemId(), LocalDate.parse("2024-11-11"), 7, false));
+        demandHistoryRepository.flush();
+
+        stockLevelRepository.save(new StockLevel(
+                item.getItemId(), 8, 0));
+        stockLevelRepository.flush();
+
+        int result = reorderService.suggestedQuantityForItem(item.getItemId());
+        assertThat(result).isEqualTo(100);
+    }
+
+    @Test
+    void noStockRowThrowsError(){
+        demandHistoryRepository.save(new DemandHistory(
+                item.getItemId(), LocalDate.parse("2024-11-04"), 60, false));
+        demandHistoryRepository.save(new DemandHistory(
+                item.getItemId(), LocalDate.parse("2024-11-11"), 80, false));
+        demandHistoryRepository.flush();
+        assertThatThrownBy(() ->
+                reorderService.suggestedQuantityForItem(item.getItemId()))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("No stock level");
     }
 }
