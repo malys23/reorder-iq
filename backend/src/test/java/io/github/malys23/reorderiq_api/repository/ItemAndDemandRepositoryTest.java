@@ -16,6 +16,7 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -118,5 +119,35 @@ class ItemAndDemandRepositoryTest {
         assertThat(last26).allMatch(row -> row.getItemId()==1);
         assertThat(last26.get(0).getWeekStart()).isEqualTo(START.plusWeeks(29));
         assertThat(last26.get(25).getWeekStart()).isEqualTo(START.plusWeeks(4));
+    }
+
+    @Test
+    void findLatestWeekReturnsLastWeeksDate(){
+        saveItem(1);
+        saveWeeks(1, 5);
+        flushAndClear();
+        LocalDate cutoff = START.plusWeeks(4);
+        Optional<LocalDate> result = demandHistoryRepository.findLatestWeek();
+
+        assertThat(result).contains(cutoff);
+    }
+
+    @Test
+    void findLatestWeekReturnsEmptyOnEmptyTable(){
+        assertThat(demandHistoryRepository.findLatestWeek()).isEmpty();
+    }
+
+    @Test
+    void findByWeekStartReturnsExpectedOutcome(){
+        saveItem(1);
+        saveWeeks(1, 104);
+        flushAndClear();
+        LocalDate cutoff = START.plusWeeks(78);
+        List<DemandHistory> result = demandHistoryRepository.findByWeekStartGreaterThanEqual(cutoff);
+
+        assertThat(result).hasSize(26);
+        assertThat(result).extracting(DemandHistory::getWeekStart)
+                .allMatch(w -> !w.isBefore(cutoff))
+                .contains(cutoff);
     }
 }

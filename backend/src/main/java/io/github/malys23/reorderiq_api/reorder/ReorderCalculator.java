@@ -68,7 +68,7 @@ public class ReorderCalculator {
     }
 
     //get min order quantity
-    int minOrderQuantity(BigDecimal unitCost){
+    public int minOrderQuantity(BigDecimal unitCost){
         for (ReorderProperties.MinOrderTier tier: reorderProperties.minOrderTiers()){
             if(unitCost.compareTo(tier.belowUnitCost())< 0){
                 return tier.quantity();
@@ -78,7 +78,7 @@ public class ReorderCalculator {
     }
 
     //calculate suggested value
-    int suggestedQuantity(double reorderPoint, double dailyMean, int onHand, int onOrder, int minOrderQuantity){
+    public int suggestedQuantity(double reorderPoint, double dailyMean, int onHand, int onOrder, int minOrderQuantity){
         int position = onHand + onOrder;
         if(position >= reorderPoint){ return 0; }
         double orderUpTo = reorderPoint + dailyMean * 7 * reorderProperties.orderCoverWeeks();
