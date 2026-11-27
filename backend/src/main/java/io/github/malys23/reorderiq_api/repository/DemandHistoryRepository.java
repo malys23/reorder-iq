@@ -19,4 +19,6 @@ public interface DemandHistoryRepository extends JpaRepository<DemandHistory, De
     Optional<LocalDate> findLatestWeek();
 
     List<DemandHistory> findByWeekStartGreaterThanEqual(LocalDate cutoff);
+
+    List<DemandHistory> findByItemIdOrderByWeekStartAsc(Integer itemId);
 }
